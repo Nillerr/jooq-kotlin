@@ -3,6 +3,8 @@ package io.github.nillerr
 import org.apache.commons.codec.digest.DigestUtils
 import org.gradle.internal.extensions.stdlib.capitalized
 import org.gradle.jvm.tasks.Jar
+import java.net.InetSocketAddress
+import java.net.ProxySelector
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -168,7 +170,7 @@ publishing {
                 }
 
                 // Set the archive name
-                archiveFileName = "${project.name}-${project.version}-bundle.zip"
+                archiveFileName = "${project.name}-${project.version}.zip"
                 destinationDirectory = layout.buildDirectory.dir("bundles")
             }
 
@@ -190,7 +192,9 @@ publishing {
                         throw GradleException("Bundle file not found: ${bundleFile.absolutePath}")
                     }
 
-                    val httpClient = HttpClient.newBuilder().build()
+                    val httpClient = HttpClient.newBuilder()
+                        .proxy(ProxySelector.of(InetSocketAddress("127.0.0.1", 8888)))
+                        .build()
 
                     // Step 1: Upload the bundle
                     logger.lifecycle("Uploading bundle to Maven Central...")
@@ -202,8 +206,9 @@ publishing {
                     val requestBody = buildString {
                         // Add file part
                         append("$prefix$boundary\r\n")
-                        append("Content-Disposition: form-data; name=\"bundle\"; filename=\"${bundleFile.name}\"\r\n")
+                        append("Content-Disposition: form-data; name=\"bundle\"; filename=\"${bundleFile.nameWithoutExtension}\"\r\n")
                         append("Content-Type: application/zip\r\n")
+                        append("\r\n")
                     }.toByteArray() + bundleContent + "\r\n$prefix$boundary$prefix\r\n".toByteArray()
 
                     val publishingType = "USER_MANAGED"

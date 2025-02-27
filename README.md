@@ -26,6 +26,15 @@ The repository consists of the following libraries:
 Please refer to each library's individual README for more detailed information about their specific features and
 components.
 
+## Branch Structure
+
+For any Micronaut module check out the `micronaut-3` or `micronaut-4` branch respectively, depending on the version of
+Micronaut you're targeting.
+
+Likewise, any Micronaut module is released with the major version matching the target Micronaut version, so any
+Micronaut module with a major version of `3` targets Micronaut 3, while ones with a major version of `4` targets
+Micronaut 4.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.

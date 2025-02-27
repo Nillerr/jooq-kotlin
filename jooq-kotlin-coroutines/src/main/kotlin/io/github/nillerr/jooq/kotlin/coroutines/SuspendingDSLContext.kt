@@ -4,7 +4,6 @@ import io.github.nillerr.jooq.kotlin.coroutines.configuration.isJDBC
 import io.github.nillerr.jooq.kotlin.coroutines.configuration.jdbcCoroutineDispatcher
 import io.github.nillerr.jooq.kotlin.coroutines.contracts.checkFieldNotNull
 import io.github.nillerr.jooq.kotlin.coroutines.internal.getPrimaryKeyConditions
-import io.github.nillerr.jooq.kotlin.coroutines.internal.set
 import io.github.nillerr.jooq.kotlin.coroutines.internal.uncheckedCast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -44,10 +43,7 @@ fun DSLContext.suspend(): SuspendingDSLContext {
 class SuspendingDSLContext(internal val dsl: DSLContext) {
     private val logger = Logger.getLogger(this::class.jvmName)
 
-    private val unwrapTransactionMessages = setOf(
-        "Rollback caused",
-        "Exception when blocking on publisher",
-    )
+    private val unwrapTransactionMessages = setOf("Rollback caused", "Exception when blocking on publisher")
 
     private fun unwrapTransactionException(exception: DataAccessException): Throwable? {
         var cause: Throwable = exception
@@ -302,7 +298,11 @@ class SuspendingDSLContext(internal val dsl: DSLContext) {
         }
 
         val insertions = dsl.insertInto(record.table)
-            .set(records = records)
+            .let {
+                records.fold(it.set(emptyMap<Nothing, Nothing>())) { step, record ->
+                    step.set(record).also { it.newRecord() }
+                }
+            }
             .returning()
             .suspend()
             .toList()

@@ -1,0 +1,78 @@
+[versions]
+kotlin = "1.6.21"
+dokka = "1.9.20"
+kotlinx-coroutines = "1.5.1"
+micronaut-plugin = "3.7.10"
+jooq = "3.17.0"
+projectreactor = "3.4.8"
+r2dbc = "0.9.1.RELEASE"
+junit = "5.9.0"
+junit-platform = "1.9.0"
+jackson-bom = "2.12.7.20240502"
+jackson-core = "2.12.7"
+jackson-databind = "2.12.7.2"
+jackson-datatype = "2.12.7"
+jetbrains = "23.0.0"
+
+[libraries]
+# Kotlin Gradle Plugins
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+
+kotlin-kapt-gradle-plugin = { module = "org.jetbrains.kotlin.kapt:org.jetbrains.kotlin.kapt.gradle.plugin", version.ref = "kotlin" }
+dokka-gradle-plugin = { module = "org.jetbrains.dokka:org.jetbrains.dokka.gradle.plugin", version.ref = "dokka" }
+
+commons-codec = { module = "commons-codec:commons-codec", version = "1.5" }
+
+# Kotlin BOM
+kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
+
+# Kotlin Standard Library
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+kotlin-stdlib-common = { module = "org.jetbrains.kotlin:kotlin-stdlib-common", version.ref = "kotlin" }
+kotlin-stdlib-jdk7 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk7", version.ref = "kotlin" }
+kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
+
+# Kotlin Reflect
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+
+# KotlinX Coroutines
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-slf4j = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-slf4j", version.ref = "kotlinx-coroutines" }
+
+# Micronaut
+micronaut-library-gradle-plugin = { module = "io.micronaut.library:io.micronaut.library.gradle.plugin", version.ref = "micronaut-plugin" }
+
+# jOOQ
+jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
+jooq-kotlin = { module = "org.jooq:jooq-kotlin", version.ref = "jooq" }
+
+# Project Reactor
+projectreactor-reactor-core = { module = "io.projectreactor:reactor-core", version.ref = "projectreactor" }
+
+# R2DBC
+r2dbc-spi = { module = "io.r2dbc:r2dbc-spi", version.ref = "r2dbc" }
+
+# JUnit
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+
+# JUnit Platform
+junit-platform-console = { module = "org.junit.platform:junit-platform-console", version.ref = "junit-platform" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-platform" }
+
+# Jackson
+jackson-bom = { module = "com.fasterxml.jackson:jackson-bom", version.ref = "jackson-bom" }
+
+jackson-core-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations", version.ref = "jackson-core" }
+jackson-core-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson-core" }
+
+jackson-core-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson-databind" }
+
+jackson-datatype-jdk8 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jdk8", version.ref = "jackson-datatype" }
+jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson-datatype" }
+
+# JetBrains
+jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains" }
+
+[bundles]
+jooq = ["jooq", "jooq-kotlin"]

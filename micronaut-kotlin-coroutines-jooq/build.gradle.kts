@@ -14,6 +14,14 @@ micronaut {
 
 configurations.all {
     resolutionStrategy {
+        // Micronaut
+        force("io.micronaut:micronaut-bom:$micronautVersion")
+        force("io.micronaut:micronaut-inject:$micronautVersion")
+        force("io.micronaut:micronaut-context:$micronautVersion")
+
+        // SLF4J
+        force("org.slf4j:slf4j-api:1.7.30")
+
         // Project Reactor
         force(libs.projectreactor.reactor.core)
 
@@ -35,4 +43,10 @@ dependencies {
 
     // Micronaut
     implementation("io.micronaut:micronaut-runtime")
+
+    // Connection Pools
+    compileOnly("io.micronaut.sql:micronaut-jdbc-tomcat")
+    compileOnly("io.micronaut.sql:micronaut-jdbc-hikari")
+    compileOnly("io.micronaut.sql:micronaut-jdbc-dbcp")
+    compileOnly("io.micronaut.sql:micronaut-jdbc-ucp")
 }

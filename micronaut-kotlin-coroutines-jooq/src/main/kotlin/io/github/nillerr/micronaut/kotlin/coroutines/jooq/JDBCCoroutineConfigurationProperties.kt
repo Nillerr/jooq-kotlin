@@ -2,6 +2,7 @@ package io.github.nillerr.micronaut.kotlin.coroutines.jooq
 
 import io.github.nillerr.jooq.kotlin.coroutines.dispatchers.StickyJDBCCoroutineDispatcher
 import java.time.Duration
+import javax.sql.DataSource
 
 /**
  * Configuration properties to customize the behavior of a [StickyJDBCCoroutineDispatcher].
@@ -38,8 +39,11 @@ class JDBCCoroutineConfigurationProperties {
      * and resource utilization of the dispatcher.
      *
      * Set this to the size of your connection pool for optimal results.
+     *
+     * If no value is specified, an attempt will be made to determine the maximum pool size from the underlying
+     * [DataSource].
      */
-    var poolSize: Int = 10
+    var poolSize: Int? = null
 
     /**
      * The duration a thread in the pool remains alive when idle.
@@ -48,8 +52,11 @@ class JDBCCoroutineConfigurationProperties {
      * will be kept alive before being terminated. It helps to optimize resource management
      * by removing unused threads after the specified time interval, while still allowing flexibility
      * for future task execution if the threads are needed again.
+     *
+     * If no value is specified, an attempt will be made to determine the maximum pool size from the underlying
+     * [DataSource].
      */
-    var idleTimeout: Duration = Duration.ofMinutes(1)
+    var idleTimeout: Duration? = null
 
     /**
      * The maximum duration allowed for acquiring a dispatcher before timing out.
@@ -60,8 +67,11 @@ class JDBCCoroutineConfigurationProperties {
      *
      * Adjust this value based on system performance and operational requirements to ensure
      * efficient task scheduling and prevent excessive blocking.
+     *
+     * If no value is specified, an attempt will be made to determine the maximum pool size from the underlying
+     * [DataSource].
      */
-    var acquisitionTimeout: Duration = Duration.ofSeconds(30)
+    var acquisitionTimeout: Duration? = null
 
     /**
      * An optional duration that defines a threshold for the dispatcher acquisition process.

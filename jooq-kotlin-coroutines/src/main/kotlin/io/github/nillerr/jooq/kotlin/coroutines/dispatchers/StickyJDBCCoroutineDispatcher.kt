@@ -8,15 +8,12 @@ import kotlinx.coroutines.channels.ClosedSendChannelException
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
-import java.util.concurrent.Executors
 import java.util.concurrent.LinkedBlockingQueue
-import java.util.concurrent.ThreadFactory
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.coroutineContext
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
-import kotlin.time.measureTimedValue
 
 /**
  * Implementation of [JDBCCoroutineDispatcher] that manages a fixed pool of single-threaded [java.util.concurrent.ThreadPoolExecutor]
@@ -77,7 +74,7 @@ class StickyJDBCCoroutineDispatcher(
 
     @OptIn(ExperimentalTime::class)
     private suspend fun acquireDispatcher(): ExecutorCoroutineDispatcher {
-        val (dispatcher, elapsed) = measureTimedValue {
+        val (dispatcher, elapsed) = timedValue {
             try {
                 withTimeout(acquisitionTimeout) {
                     dispatchers.receive()

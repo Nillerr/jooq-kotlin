@@ -1,14 +1,18 @@
 package io.github.nillerr.micronaut.kotlin.coroutines.jooq
 
-import io.github.nillerr.jooq.kotlin.coroutines.dispatchers.StickyJDBCCoroutineDispatcher
-import io.github.nillerr.jooq.kotlin.coroutines.dispatchers.StickyJDBCCoroutineDispatcherConfiguration
 import io.github.nillerr.jooq.kotlin.coroutines.configuration.jdbcCoroutineDispatcher
 import io.github.nillerr.jooq.kotlin.coroutines.dispatchers.JDBCCoroutineDispatcherListener
 import io.github.nillerr.jooq.kotlin.coroutines.dispatchers.JULJDBCCoroutineDispatcherListener
+import io.github.nillerr.jooq.kotlin.coroutines.dispatchers.StickyJDBCCoroutineDispatcher
+import io.github.nillerr.jooq.kotlin.coroutines.dispatchers.StickyJDBCCoroutineDispatcherConfiguration
 import io.micronaut.context.event.BeanCreatedEvent
 import io.micronaut.context.event.BeanCreatedEventListener
 import jakarta.inject.Singleton
 import org.jooq.Configuration
+import org.jooq.impl.DataSourceConnectionProvider
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.toKotlinDuration
 
 /**
@@ -33,7 +37,7 @@ class JDBCCoroutineDispatcherConfigurationInitializer(
 
         val coroutines = properties.kotlinCoroutines
         if (coroutines.enabled) {
-            val config = coroutines.toStickyJDBCCoroutineDispatcherConfiguration(listeners)
+            val config = coroutines.toStickyJDBCCoroutineDispatcherConfiguration(configuration, listeners)
 
             val dispatcher = StickyJDBCCoroutineDispatcher(config)
             configuration.jdbcCoroutineDispatcher = dispatcher
@@ -44,6 +48,7 @@ class JDBCCoroutineDispatcherConfigurationInitializer(
 }
 
 internal fun JDBCCoroutineConfigurationProperties.toStickyJDBCCoroutineDispatcherConfiguration(
+    configuration: Configuration,
     listeners: Collection<JDBCCoroutineDispatcherListener>,
 ): StickyJDBCCoroutineDispatcherConfiguration {
     val actualListeners = listeners.ifEmpty {
@@ -52,11 +57,81 @@ internal fun JDBCCoroutineConfigurationProperties.toStickyJDBCCoroutineDispatche
             ?: emptyList()
     }
 
+    val dataSourceConfiguration by lazy { configuration.determineDataSourceConfiguration() }
+
     return StickyJDBCCoroutineDispatcherConfiguration(
-        poolSize = poolSize,
-        idleTimeout = idleTimeout.toKotlinDuration(),
-        acquisitionTimeout = acquisitionTimeout.toKotlinDuration(),
+        poolSize = poolSize ?: dataSourceConfiguration.poolSize,
+        idleTimeout = idleTimeout?.toKotlinDuration() ?: dataSourceConfiguration.idleTimeout,
+        acquisitionTimeout = acquisitionTimeout?.toKotlinDuration() ?: dataSourceConfiguration.acquisitionTimeout,
         acquisitionThreshold = acquisitionThreshold?.toKotlinDuration(),
         listeners = actualListeners,
     )
+}
+
+class UnknownPoolSizeException(message: String) : Exception(message)
+
+private class DataSourceConfiguration(
+    val poolSize: Int,
+    val idleTimeout: Duration,
+    val acquisitionTimeout: Duration,
+)
+
+private fun Configuration.determineDataSourceConfiguration(): DataSourceConfiguration {
+    val connectionProvider = connectionProvider()
+    if (connectionProvider !is DataSourceConnectionProvider) {
+        throw UnknownPoolSizeException("Could not determine pool size from connection provider: $connectionProvider (${connectionProvider::class})")
+    }
+
+    val dataSource = connectionProvider.dataSource()
+    val dataSourceType = dataSource::class.java
+    val dataSourceTypeName = dataSourceType.canonicalName
+    when (dataSourceTypeName) {
+        // HikariCP
+        "io.micronaut.configuration.jdbc.hikari.HikariUrlDataSource" -> {
+            return with(dataSource as io.micronaut.configuration.jdbc.hikari.HikariUrlDataSource) {
+                DataSourceConfiguration(
+                    poolSize = maximumPoolSize,
+                    idleTimeout = idleTimeout.milliseconds,
+                    acquisitionTimeout = connectionTimeout.milliseconds,
+                )
+            }
+        }
+
+        // DBCP
+        "io.micronaut.configuration.jdbc.dbcp.DatasourceConfiguration" -> {
+            return with(dataSource as io.micronaut.configuration.jdbc.dbcp.DatasourceConfiguration) {
+                DataSourceConfiguration(
+                    poolSize = maxTotal,
+                    idleTimeout = softMinEvictableIdleTimeMillis.milliseconds,
+                    acquisitionTimeout = validationQueryTimeout.milliseconds,
+                )
+            }
+        }
+
+        // Tomcat
+        "org.apache.tomcat.jdbc.pool.DataSource" -> {
+            return with(dataSource as org.apache.tomcat.jdbc.pool.DataSource) {
+                DataSourceConfiguration(
+                    poolSize = maxActive,
+                    idleTimeout = minEvictableIdleTimeMillis.milliseconds,
+                    acquisitionTimeout = validationQueryTimeout.milliseconds,
+                )
+            }
+        }
+
+        // UCP
+        "oracle.ucp.jdbc.PoolDataSource" -> {
+            return with(dataSource as oracle.ucp.jdbc.PoolDataSource) {
+                DataSourceConfiguration(
+                    poolSize = maxPoolSize,
+                    idleTimeout = inactiveConnectionTimeout.seconds,
+                    acquisitionTimeout = connectionWaitTimeout.seconds
+                )
+            }
+        }
+
+        else -> {
+            throw UnknownPoolSizeException("Could not determine pool size from data source: $dataSourceTypeName")
+        }
+    }
 }

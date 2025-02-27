@@ -6,7 +6,7 @@ plugins {
 
 version = "3.0.0"
 
-val micronautVersion = "3.6.0"
+val micronautVersion = "4.0.0"
 
 micronaut {
     version = micronautVersion

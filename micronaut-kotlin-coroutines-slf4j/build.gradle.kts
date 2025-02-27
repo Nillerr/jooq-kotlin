@@ -6,10 +6,19 @@ plugins {
 
 version = "3.0.0"
 
-val micronautVersion = "3.2.0"
+val micronautVersion = "4.0.0"
 
 micronaut {
     version = micronautVersion
+}
+
+configurations.all {
+    resolutionStrategy {
+        // KotlinX Coroutines
+        force(libs.kotlinx.coroutines.bom)
+        force(libs.kotlinx.coroutines.core)
+        force(libs.kotlinx.coroutines.slf4j)
+    }
 }
 
 dependencies {

@@ -4,9 +4,9 @@ plugins {
     id("io.github.nillerr.publishing")
 }
 
-version = "3.0.0"
+version = "4.0.0"
 
-val micronautVersion = "3.2.0"
+val micronautVersion = "4.0.0"
 
 micronaut {
     version = micronautVersion
@@ -24,6 +24,13 @@ configurations.all {
 
         // Project Reactor
         force(libs.projectreactor.reactor.core)
+        force(libs.reactivestreams)
+
+        // KotlinX Coroutines
+        force(libs.kotlinx.coroutines.bom)
+        force(libs.kotlinx.coroutines.core)
+        force(libs.kotlinx.coroutines.reactor)
+        force(libs.kotlinx.coroutines.reactive)
 
         // jOOQ
         force(libs.jooq)

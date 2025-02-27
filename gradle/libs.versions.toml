@@ -1,18 +1,18 @@
 [versions]
-kotlin = "1.6.21"
+kotlin = "1.8.0"
 dokka = "1.9.20"
-kotlinx-coroutines = "1.5.1"
-micronaut-plugin = "3.7.10"
+kotlinx-coroutines = "1.7.1"
+micronaut-plugin = "4.4.5"
 jooq = "3.17.0"
-projectreactor = "3.4.8"
+projectreactor = "3.5.7"
+reactivestreams = "1.0.4"
 r2dbc = "0.9.1.RELEASE"
-codehaus-groovy = "3.0.9"
-junit = "5.9.0"
-junit-platform = "1.9.0"
-jackson-bom = "2.12.7.20240502"
-jackson-core = "2.12.7"
-jackson-databind = "2.12.7.2"
-jackson-datatype = "2.12.7"
+apache-groovy = "4.0.13"
+junit = "5.10.0"
+jackson-bom = "2.13.5"
+jackson-core = "2.13.5"
+jackson-databind = "2.13.5"
+jackson-datatype = "2.13.5"
 jetbrains = "23.0.0"
 testcontainers = "1.20.5"
 postgresql = "42.7.5"
@@ -43,8 +43,10 @@ kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", versi
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 
 # KotlinX Coroutines
+kotlinx-coroutines-bom = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-bom", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-reactive = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactive", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-slf4j = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-slf4j", version.ref = "kotlinx-coroutines" }
 
 # Postgres
@@ -61,18 +63,17 @@ jooq-liquibase = { module = "org.jooq:jooq-meta-extensions-liquibase", version.r
 # Project Reactor
 projectreactor-reactor-core = { module = "io.projectreactor:reactor-core", version.ref = "projectreactor" }
 
+# Project Reactor
+reactivestreams = { module = "org.reactivestreams:reactive-streams", version.ref = "reactivestreams" }
+
 # R2DBC
 r2dbc-spi = { module = "io.r2dbc:r2dbc-spi", version.ref = "r2dbc" }
 
 # JUnit
-codehaus-groovy-bom = { module = "org.codehaus.groovy:groovy-bom", version.ref = "codehaus-groovy" }
+apache-groovy-bom = { module = "org.apache.groovy:groovy-bom", version.ref = "apache-groovy" }
 
 # JUnit
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
-
-# JUnit Platform
-junit-platform-console = { module = "org.junit.platform:junit-platform-console", version.ref = "junit-platform" }
-junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-platform" }
 
 # Jackson
 jackson-bom = { module = "com.fasterxml.jackson:jackson-bom", version.ref = "jackson-bom" }

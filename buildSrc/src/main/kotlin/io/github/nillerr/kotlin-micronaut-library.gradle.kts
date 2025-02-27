@@ -25,13 +25,9 @@ tasks {
 configurations.all {
     resolutionStrategy {
         // Groovy BOM
-        force(libs.codehaus.groovy.bom)
+        force(libs.apache.groovy.bom)
 
         // JUnit
         force(libs.junit.bom)
-
-        // JUnit Platform
-        force(libs.junit.platform.console)
-        force(libs.junit.platform.launcher)
     }
 }

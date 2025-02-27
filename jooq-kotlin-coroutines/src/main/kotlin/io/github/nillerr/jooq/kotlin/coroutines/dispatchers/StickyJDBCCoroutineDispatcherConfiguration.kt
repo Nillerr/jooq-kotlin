@@ -1,5 +1,7 @@
 package io.github.nillerr.jooq.kotlin.coroutines.dispatchers
 
+import org.jooq.Configuration
+import org.jooq.DSLContext
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
@@ -27,4 +29,29 @@ data class StickyJDBCCoroutineDispatcherConfiguration(
     val acquisitionTimeout: Duration = 30.seconds,
     val acquisitionThreshold: Duration? = null,
     val listeners: Collection<JDBCCoroutineDispatcherListener> = emptyList(),
-)
+) {
+    companion object {
+        operator fun invoke(
+            dsl: DSLContext,
+            acquisitionThreshold: Duration? = null,
+            listeners: Collection<JDBCCoroutineDispatcherListener> = emptyList(),
+        ): StickyJDBCCoroutineDispatcherConfiguration {
+            return invoke(dsl.configuration(), acquisitionThreshold, listeners)
+        }
+
+        operator fun invoke(
+            configuration: Configuration,
+            acquisitionThreshold: Duration? = null,
+            listeners: Collection<JDBCCoroutineDispatcherListener> = emptyList(),
+        ): StickyJDBCCoroutineDispatcherConfiguration {
+            val dataSourceConfiguration = DataSourceConfiguration.derive(configuration)
+            return StickyJDBCCoroutineDispatcherConfiguration(
+                poolSize = dataSourceConfiguration.poolSize,
+                idleTimeout = dataSourceConfiguration.idleTimeout,
+                acquisitionTimeout = dataSourceConfiguration.acquisitionTimeout,
+                acquisitionThreshold = acquisitionThreshold,
+                listeners = listeners,
+            )
+        }
+    }
+}

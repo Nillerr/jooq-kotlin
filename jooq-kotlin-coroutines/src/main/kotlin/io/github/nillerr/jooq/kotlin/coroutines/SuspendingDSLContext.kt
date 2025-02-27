@@ -2,7 +2,7 @@ package io.github.nillerr.jooq.kotlin.coroutines
 
 import io.github.nillerr.jooq.kotlin.coroutines.configuration.isJDBC
 import io.github.nillerr.jooq.kotlin.coroutines.configuration.jdbcCoroutineDispatcher
-import io.github.nillerr.jooq.kotlin.coroutines.contracts.checkNotNull
+import io.github.nillerr.jooq.kotlin.coroutines.contracts.checkFieldNotNull
 import io.github.nillerr.jooq.kotlin.coroutines.internal.getPrimaryKeyConditions
 import io.github.nillerr.jooq.kotlin.coroutines.internal.set
 import io.github.nillerr.jooq.kotlin.coroutines.internal.uncheckedCast
@@ -54,7 +54,7 @@ class SuspendingDSLContext(internal val dsl: DSLContext) {
         while (cause::class == DataAccessException::class && cause.message in unwrapTransactionMessages) {
             cause = cause.cause ?: return cause
         }
-        return cause.takeUnless { it::class == DataAccessException::class }
+        return cause
     }
 
     /**
@@ -178,7 +178,7 @@ class SuspendingDSLContext(internal val dsl: DSLContext) {
             .where(where)
             .groupBy(groupBy)
             .suspend()
-            .toMap({ (key) -> checkNotNull(key, groupBy) }, { (_, count) -> count })
+            .toMap({ (key) -> checkFieldNotNull(key, groupBy) }, { (_, count) -> count })
     }
 
     /**

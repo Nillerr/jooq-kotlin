@@ -13,6 +13,18 @@ plugins {
 rootProject.name = "micronaut-kotlin-coroutines"
 
 include(":jooq-kotlin-coroutines")
+include(":jooq-kotlin-coroutines-testing")
+
 include(":micronaut-kotlin-coroutines-jooq")
 include(":micronaut-kotlin-coroutines-opentelemetry")
 include(":micronaut-kotlin-coroutines-slf4j")
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("org.testcontainers:postgresql:1.20.5")
+    }
+}

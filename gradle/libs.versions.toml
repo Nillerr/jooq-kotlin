@@ -14,6 +14,8 @@ jackson-core = "2.12.7"
 jackson-databind = "2.12.7.2"
 jackson-datatype = "2.12.7"
 jetbrains = "23.0.0"
+testcontainers = "1.20.5"
+postgresql = "42.7.5"
 
 [libraries]
 # Kotlin Gradle Plugins
@@ -23,6 +25,10 @@ kotlin-kapt-gradle-plugin = { module = "org.jetbrains.kotlin.kapt:org.jetbrains.
 dokka-gradle-plugin = { module = "org.jetbrains.dokka:org.jetbrains.dokka.gradle.plugin", version.ref = "dokka" }
 
 commons-codec = { module = "commons-codec:commons-codec", version = "1.18.0" }
+
+# Apache Commons
+apache-commons-lang = { module = "org.apache.commons:commons-lang3", version = "3.14.0" }
+apache-commons-text = { module = "org.apache.commons:commons-text", version = "1.13.0" }
 
 # Kotlin BOM
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
@@ -41,12 +47,16 @@ kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-c
 kotlinx-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-slf4j = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-slf4j", version.ref = "kotlinx-coroutines" }
 
+# Postgres
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+
 # Micronaut
 micronaut-library-gradle-plugin = { module = "io.micronaut.library:io.micronaut.library.gradle.plugin", version.ref = "micronaut-plugin" }
 
 # jOOQ
 jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
 jooq-kotlin = { module = "org.jooq:jooq-kotlin", version.ref = "jooq" }
+jooq-liquibase = { module = "org.jooq:jooq-meta-extensions-liquibase", version.ref = "jooq" }
 
 # Project Reactor
 projectreactor-reactor-core = { module = "io.projectreactor:reactor-core", version.ref = "projectreactor" }
@@ -77,6 +87,11 @@ jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-dat
 
 # JetBrains
 jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains" }
+
+# Testcontainers
+testcontainers = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
+testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainers" }
+testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.ref = "testcontainers" }
 
 [bundles]
 jooq = ["jooq", "jooq-kotlin"]

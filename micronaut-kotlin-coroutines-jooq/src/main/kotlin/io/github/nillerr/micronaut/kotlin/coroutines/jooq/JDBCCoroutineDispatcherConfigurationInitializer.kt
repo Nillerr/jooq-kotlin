@@ -1,10 +1,12 @@
 package io.github.nillerr.micronaut.kotlin.coroutines.jooq
 
 import io.github.nillerr.jooq.kotlin.coroutines.configuration.jdbcCoroutineDispatcher
+import io.github.nillerr.jooq.kotlin.coroutines.dispatchers.DataSourceConfiguration
 import io.github.nillerr.jooq.kotlin.coroutines.dispatchers.JDBCCoroutineDispatcherListener
 import io.github.nillerr.jooq.kotlin.coroutines.dispatchers.JULJDBCCoroutineDispatcherListener
 import io.github.nillerr.jooq.kotlin.coroutines.dispatchers.StickyJDBCCoroutineDispatcher
 import io.github.nillerr.jooq.kotlin.coroutines.dispatchers.StickyJDBCCoroutineDispatcherConfiguration
+import io.github.nillerr.jooq.kotlin.coroutines.dispatchers.UnknownPoolSizeException
 import io.micronaut.context.event.BeanCreatedEvent
 import io.micronaut.context.event.BeanCreatedEventListener
 import jakarta.inject.Singleton
@@ -57,7 +59,7 @@ internal fun JDBCCoroutineConfigurationProperties.toStickyJDBCCoroutineDispatche
             ?: emptyList()
     }
 
-    val dataSourceConfiguration by lazy { configuration.determineDataSourceConfiguration() }
+    val dataSourceConfiguration by lazy { DataSourceConfiguration.deriveForMicronaut(configuration) }
 
     return StickyJDBCCoroutineDispatcherConfiguration(
         poolSize = poolSize ?: dataSourceConfiguration.poolSize,
@@ -68,16 +70,8 @@ internal fun JDBCCoroutineConfigurationProperties.toStickyJDBCCoroutineDispatche
     )
 }
 
-class UnknownPoolSizeException(message: String) : Exception(message)
-
-private class DataSourceConfiguration(
-    val poolSize: Int,
-    val idleTimeout: Duration,
-    val acquisitionTimeout: Duration,
-)
-
-private fun Configuration.determineDataSourceConfiguration(): DataSourceConfiguration {
-    val connectionProvider = connectionProvider()
+fun DataSourceConfiguration.Companion.deriveForMicronaut(configuration: Configuration): DataSourceConfiguration {
+    val connectionProvider = configuration.connectionProvider()
     if (connectionProvider !is DataSourceConnectionProvider) {
         throw UnknownPoolSizeException("Could not determine pool size from connection provider: $connectionProvider (${connectionProvider::class})")
     }

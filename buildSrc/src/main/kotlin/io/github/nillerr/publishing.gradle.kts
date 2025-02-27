@@ -140,7 +140,7 @@ publishing {
 
                         // Generate SHA-1 checksum
                         val sha1File = file.resolveSibling("${file.name}.sha1")
-                        val sha1 = DigestUtils.shaHex(fileContent)
+                        val sha1 = DigestUtils.sha1Hex(fileContent)
                         sha1File.writeText(sha1)
 
                         // Generate MD5 checksum

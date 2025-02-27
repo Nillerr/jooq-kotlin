@@ -12,6 +12,4 @@ dependencies {
     implementation(libs.micronaut.library.gradle.plugin)
     implementation(libs.dokka.gradle.plugin)
     implementation(libs.commons.codec)
-//    implementation(libs.deepmedia.deployer.gradle.plugin)
-//    implementation(libs.lalaki.central.gradle.plugin)
 }

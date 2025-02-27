@@ -25,7 +25,7 @@ tasks {
 configurations.all {
     resolutionStrategy {
         // Groovy BOM
-        exclude("org.codehaus.groovy", "groovy-bom")
+        force(libs.codehaus.groovy.bom)
 
         // JUnit
         force(libs.junit.bom)

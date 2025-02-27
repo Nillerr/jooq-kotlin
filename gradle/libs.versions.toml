@@ -6,6 +6,7 @@ micronaut-plugin = "3.7.10"
 jooq = "3.17.0"
 projectreactor = "3.4.8"
 r2dbc = "0.9.1.RELEASE"
+codehaus-groovy = "3.0.9"
 junit = "5.9.0"
 junit-platform = "1.9.0"
 jackson-bom = "2.12.7.20240502"
@@ -21,7 +22,7 @@ kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", v
 kotlin-kapt-gradle-plugin = { module = "org.jetbrains.kotlin.kapt:org.jetbrains.kotlin.kapt.gradle.plugin", version.ref = "kotlin" }
 dokka-gradle-plugin = { module = "org.jetbrains.dokka:org.jetbrains.dokka.gradle.plugin", version.ref = "dokka" }
 
-commons-codec = { module = "commons-codec:commons-codec", version = "1.5" }
+commons-codec = { module = "commons-codec:commons-codec", version = "1.18.0" }
 
 # Kotlin BOM
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
@@ -52,6 +53,9 @@ projectreactor-reactor-core = { module = "io.projectreactor:reactor-core", versi
 
 # R2DBC
 r2dbc-spi = { module = "io.r2dbc:r2dbc-spi", version.ref = "r2dbc" }
+
+# JUnit
+codehaus-groovy-bom = { module = "org.codehaus.groovy:groovy-bom", version.ref = "codehaus-groovy" }
 
 # JUnit
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }

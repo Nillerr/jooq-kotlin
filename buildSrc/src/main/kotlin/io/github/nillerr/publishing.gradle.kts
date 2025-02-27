@@ -3,8 +3,6 @@ package io.github.nillerr
 import org.apache.commons.codec.digest.DigestUtils
 import org.gradle.internal.extensions.stdlib.capitalized
 import org.gradle.jvm.tasks.Jar
-import java.net.InetSocketAddress
-import java.net.ProxySelector
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -193,7 +191,6 @@ publishing {
                     }
 
                     val httpClient = HttpClient.newBuilder()
-                        .proxy(ProxySelector.of(InetSocketAddress("127.0.0.1", 8888)))
                         .build()
 
                     // Step 1: Upload the bundle

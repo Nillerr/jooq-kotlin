@@ -16,6 +16,19 @@ import kotlin.reflect.jvm.jvmName
 internal interface DataKey<T : Any>
 
 /**
+ * Retrieves a value associated with the specified key from the configuration, or sets it to a default value
+ * if no value is currently associated with the key. The operation is thread-safe.
+ *
+ * @param T The type of the value to retrieve or set. Must be specified as a reified type parameter.
+ * @param key The key used to look up or set the configuration value. Must implement [DataKey] specific to type [T].
+ * @param defaultValue A lambda function to produce the default value if the key does not yet have an associated value.
+ * @return The value associated with the specified key, or the newly set default value, or null if the value could not be retrieved or set.
+ */
+internal inline fun <reified T : Any> Configuration.getOrSet(key: DataKey<T>, defaultValue: () -> T): T {
+    return get(key) ?: synchronized(data()) { get(key) ?: defaultValue().also { set(key, it) } }
+}
+
+/**
  * Retrieves a strongly-typed value associated with the specified configuration key.
  *
  * @param T The type of the value to be retrieved. Must be specified as a reified type parameter.
@@ -35,6 +48,19 @@ internal inline fun <reified T : Any> Configuration.get(key: DataKey<T>): T? {
  */
 internal inline fun <reified T : Any> Configuration.set(key: DataKey<T>, value: T): T? {
     return data(key, value) as T?
+}
+
+/**
+ * Retrieves a value associated with the specified key from the configuration, or sets it to a default value
+ * if no value is currently associated with the key. The operation is thread-safe.
+ *
+ * @param T The type of the value to retrieve or set. Must be specified as a reified type parameter.
+ * @param key The key used to look up or set the configuration value. Must implement [DataKey] specific to type [T].
+ * @param defaultValue A lambda function to produce the default value if the key does not yet have an associated value.
+ * @return The value associated with the specified key, or the newly set default value, or null if the value could not be retrieved or set.
+ */
+internal inline fun <reified T : Any> DSLContext.getOrSet(key: DataKey<T>, defaultValue: () -> T): T {
+    return get(key) ?: synchronized(data()) { get(key) ?: defaultValue().also { set(key, it) } }
 }
 
 /**

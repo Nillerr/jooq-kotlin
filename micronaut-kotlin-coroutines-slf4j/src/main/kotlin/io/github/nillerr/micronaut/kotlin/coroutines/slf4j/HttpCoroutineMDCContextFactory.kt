@@ -12,7 +12,7 @@ import kotlin.coroutines.CoroutineContext
  * This implementation ensures proper integration of MDC with coroutines, allowing logging frameworks
  * or any other MDC-dependent utilities to function correctly in coroutine contexts.
  */
-@Requires(classes = [ThreadContextElement::class, CoroutineContext::class])
+@Requires(classes = [ThreadContextElement::class, MDCContext::class])
 @Context
 @Singleton
 class HttpCoroutineMDCContextFactory : HttpCoroutineContextFactory<MDCContext> {

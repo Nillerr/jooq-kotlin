@@ -1,7 +1,8 @@
 package io.github.nillerr.jooq.kotlin.coroutines.configuration
 
 import io.github.nillerr.jooq.kotlin.coroutines.dispatchers.JDBCCoroutineDispatcher
-import io.github.nillerr.jooq.kotlin.coroutines.dispatchers.PassthroughJDBCCoroutineDispatcher
+import io.github.nillerr.jooq.kotlin.coroutines.dispatchers.StickyJDBCCoroutineDispatcher
+import io.github.nillerr.jooq.kotlin.coroutines.dispatchers.StickyJDBCCoroutineDispatcherConfiguration
 import org.jooq.Configuration
 import org.jooq.DSLContext
 
@@ -16,8 +17,8 @@ private object JDBCCoroutineDispatcherKey : DataKey<JDBCCoroutineDispatcher>
  * valid configuration settings.
  */
 var Configuration.jdbcCoroutineDispatcher: JDBCCoroutineDispatcher
-    get() {
-        return get(JDBCCoroutineDispatcherKey) ?: PassthroughJDBCCoroutineDispatcher
+    get() = getOrSet(JDBCCoroutineDispatcherKey) {
+        StickyJDBCCoroutineDispatcher(StickyJDBCCoroutineDispatcherConfiguration(this))
     }
     set(dispatcher) {
         set(JDBCCoroutineDispatcherKey, dispatcher)
@@ -32,8 +33,8 @@ var Configuration.jdbcCoroutineDispatcher: JDBCCoroutineDispatcher
  * valid configuration settings.
  */
 var DSLContext.jdbcCoroutineDispatcher: JDBCCoroutineDispatcher
-    get() {
-        return get(JDBCCoroutineDispatcherKey) ?: PassthroughJDBCCoroutineDispatcher
+    get() = getOrSet(JDBCCoroutineDispatcherKey) {
+        StickyJDBCCoroutineDispatcher(StickyJDBCCoroutineDispatcherConfiguration(configuration()))
     }
     set(dispatcher) {
         set(JDBCCoroutineDispatcherKey, dispatcher)

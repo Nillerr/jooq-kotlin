@@ -49,7 +49,6 @@ class StickyJDBCCoroutineDispatcher(
         }
     }
 
-    @OptIn(ExperimentalTime::class)
     override suspend fun <T> launch(block: suspend (JDBCDispatch) -> T): T {
         val currentJdbcDispatch = coroutineContext[JDBCDispatch.Key]
         if (currentJdbcDispatch != null) {

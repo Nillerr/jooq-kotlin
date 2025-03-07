@@ -7,21 +7,20 @@ various integrations.
 
 The repository consists of the following libraries:
 
-- [jooq-kotlin-coroutines](./jooq-kotlin-coroutines/README.md)
-    - Kotlin Coroutines extensions for jOOQ
+- [jooq-kotlin](./jooq-kotlin/README.md)
     - Provides coroutine-friendly APIs for JDBC database operations using jOOQ
 
-- [micronaut-kotlin-coroutines-jooq](./micronaut-kotlin-coroutines-jooq/README.md)
+- [micronaut-kotlin-jooq](./micronaut-kotlin-jooq/README.md)
     - Micronaut integration for jOOQ with Kotlin Coroutines support
-    - Combines the Micronaut framework with jOOQ's type-safe SQL builder using coroutines
 
-- [micronaut-kotlin-coroutines-opentelemetry](./micronaut-kotlin-coroutines-opentelemetry/README.md)
+- [micronaut-kotlin-opentelemetry](./micronaut-kotlin-opentelemetry/README.md)
     - OpenTelemetry integration for Micronaut with Kotlin Coroutines support
-    - Provides distributed tracing capabilities for coroutine-based applications
 
-- [micronaut-kotlin-coroutines-slf4j](./micronaut-kotlin-coroutines-slf4j/README.md)
+- [micronaut-kotlin-slf4j](./micronaut-kotlin-slf4j/README.md)
     - SLF4J integration for Micronaut with Kotlin Coroutines support
-    - Logging utilities optimized for coroutine-based applications
+
+- [micronaut-kotlin-loom](./micronaut-kotlin-loom/README.md)
+    - Uses Virtual Threads as the Dispatcher for `suspend` functions in Micronaut
 
 Please refer to each library's individual README for more detailed information about their specific features and
 components.

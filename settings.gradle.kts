@@ -2,6 +2,7 @@ dependencyResolutionManagement {
     @Suppress("UnstableApiUsage")
     repositories {
         mavenCentral()
+        gradlePluginPortal()
     }
 }
 
@@ -12,12 +13,13 @@ plugins {
 
 rootProject.name = "micronaut-kotlin-coroutines"
 
-include(":jooq-kotlin-coroutines")
-include(":jooq-kotlin-coroutines-testing")
+include(":jooq-kotlin")
+include(":jooq-kotlin-testing")
 
-include(":micronaut-kotlin-coroutines-jooq")
-include(":micronaut-kotlin-coroutines-opentelemetry")
-include(":micronaut-kotlin-coroutines-slf4j")
+include(":micronaut-kotlin-jooq")
+//include(":micronaut-kotlin-loom")
+include(":micronaut-kotlin-opentelemetry")
+include(":micronaut-kotlin-slf4j")
 
 buildscript {
     repositories {

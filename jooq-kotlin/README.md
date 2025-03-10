@@ -1,5 +1,7 @@
 # Kotlin Coroutines for jOOQ
 
+![v1.0.0](https://img.shields.io/maven-central/v/io.github.nillerr/jooq-kotlin)
+
 This module implements an integration of [jOOQ](https://www.jooq.org/) with Kotlin coroutines for asynchronous database
 access. By leveraging Kotlin's coroutine capabilities, it provides an efficient, non-blocking way to interact with your
 database, enabling the development of high-performance and scalable applications.

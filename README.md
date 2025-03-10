@@ -1,5 +1,7 @@
 # Kotlin Coroutines Extensions for Micronaut
 
+![v1.0.0](https://img.shields.io/maven-central/v/io.github.nillerr/jooq-kotlin)
+
 This repository contains a collection of extension libraries for Micronaut that improves Kotlin Coroutines support for
 various integrations.
 

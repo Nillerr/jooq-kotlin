@@ -16,6 +16,7 @@ jackson-datatype = "2.12.7"
 jetbrains = "23.0.0"
 testcontainers = "1.20.5"
 postgresql = "42.7.5"
+ksp = "1.6.21-1.0.6"
 
 [libraries]
 # Kotlin Gradle Plugins
@@ -23,6 +24,8 @@ kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", v
 
 kotlin-kapt-gradle-plugin = { module = "org.jetbrains.kotlin.kapt:org.jetbrains.kotlin.kapt.gradle.plugin", version.ref = "kotlin" }
 dokka-gradle-plugin = { module = "org.jetbrains.dokka:org.jetbrains.dokka.gradle.plugin", version.ref = "dokka" }
+
+ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 
 commons-codec = { module = "commons-codec:commons-codec", version = "1.18.0" }
 
@@ -57,6 +60,7 @@ micronaut-library-gradle-plugin = { module = "io.micronaut.library:io.micronaut.
 # jOOQ
 jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
 jooq-kotlin = { module = "org.jooq:jooq-kotlin", version.ref = "jooq" }
+jooq-codegen = { module = "org.jooq:jooq-codegen", version.ref = "jooq" }
 jooq-liquibase = { module = "org.jooq:jooq-meta-extensions-liquibase", version.ref = "jooq" }
 
 # Project Reactor

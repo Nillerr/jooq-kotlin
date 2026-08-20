@@ -1,5 +1,6 @@
 package io.github.nillerr.micronaut.kotlin.coroutines.jooq
 
+import io.github.nillerr.jooq.kotlin.coroutines.configuration.isJDBC
 import io.github.nillerr.jooq.kotlin.coroutines.configuration.jdbcCoroutineDispatcher
 import io.github.nillerr.jooq.kotlin.coroutines.dispatchers.DataSourceConfiguration
 import io.github.nillerr.jooq.kotlin.coroutines.dispatchers.JDBCCoroutineDispatcherListener
@@ -37,13 +38,14 @@ class JDBCCoroutineDispatcherConfigurationInitializer(
 ) : BeanCreatedEventListener<Configuration> {
     override fun onCreated(event: BeanCreatedEvent<Configuration>): Configuration {
         val configuration = event.bean
+        if (configuration.isJDBC) {
+            val coroutines = properties.kotlinCoroutines
+            if (coroutines.enabled) {
+                val config = coroutines.toPooledJDBCCoroutineDispatcherConfiguration(configuration, listeners)
 
-        val coroutines = properties.kotlinCoroutines
-        if (coroutines.enabled) {
-            val config = coroutines.toPooledJDBCCoroutineDispatcherConfiguration(configuration, listeners)
-
-            val dispatcher = PooledJDBCCoroutineDispatcher(config)
-            configuration.jdbcCoroutineDispatcher = dispatcher
+                val dispatcher = PooledJDBCCoroutineDispatcher(config)
+                configuration.jdbcCoroutineDispatcher = dispatcher
+            }
         }
 
         return configuration

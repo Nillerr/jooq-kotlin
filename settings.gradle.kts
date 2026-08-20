@@ -15,11 +15,12 @@ rootProject.name = "micronaut-kotlin-coroutines"
 
 include(":jooq-kotlin")
 include(":jooq-kotlin-testing")
+//include(":jooq-minimal-generator")
 
-include(":micronaut-kotlin-jooq")
+//include(":micronaut-kotlin-jooq")
 //include(":micronaut-kotlin-loom")
-include(":micronaut-kotlin-opentelemetry")
-include(":micronaut-kotlin-slf4j")
+//include(":micronaut-kotlin-opentelemetry")
+//include(":micronaut-kotlin-slf4j")
 
 buildscript {
     repositories {

@@ -26,6 +26,10 @@ configurations.all {
 
         // SLF4J
         force("org.slf4j:slf4j-api:1.7.36")
+
+        // R2DBC
+        force("io.r2dbc:r2dbc-spi:0.9.1.RELEASE")
+        force("io.projectreactor:reactor-core:3.4.1")
     }
 }
 
@@ -44,6 +48,10 @@ dependencies {
     compileOnly("org.apache.commons:commons-dbcp2:2.8.0")
     compileOnly("com.oracle.database.jdbc:ucp:21.1.0.0")
     compileOnly("org.springframework:spring-jdbc:5.3.25")
+
+    // R2DBC
+    implementation("io.r2dbc:r2dbc-postgresql:0.8.13.RELEASE")
+    implementation("io.r2dbc:r2dbc-spi:0.9.1.RELEASE")
 
     // Test - Project
     testImplementation(project(":jooq-kotlin-testing"))

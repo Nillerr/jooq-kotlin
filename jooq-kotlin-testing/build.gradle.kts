@@ -25,6 +25,10 @@ configurations.all {
 
         // jOOQ
         force(libs.jooq)
+
+        // R2DBC
+        force("io.r2dbc:r2dbc-spi:0.9.1.RELEASE")
+        force("io.projectreactor:reactor-core:3.4.1")
     }
 }
 

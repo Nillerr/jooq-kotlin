@@ -1,5 +1,6 @@
 package io.github.nillerr.micronaut.kotlin.coroutines.jooq
 
+import io.github.nillerr.jooq.kotlin.coroutines.configuration.isJDBC
 import io.github.nillerr.jooq.kotlin.coroutines.configuration.jdbcCoroutineDispatcher
 import io.micronaut.context.event.ApplicationEventListener
 import io.micronaut.runtime.event.ApplicationShutdownEvent
@@ -22,8 +23,10 @@ class JDBCCoroutineDispatcherShutdownListener(
 ) : ApplicationEventListener<ApplicationShutdownEvent> {
     override fun onApplicationEvent(event: ApplicationShutdownEvent) {
         for (configuration in configurations) {
-            val dispatcher = configuration.jdbcCoroutineDispatcher
-            dispatcher.close()
+            if (configuration.isJDBC) {
+                val dispatcher = configuration.jdbcCoroutineDispatcher
+                dispatcher.close()
+            }
         }
     }
 }

@@ -94,7 +94,7 @@ internal inline fun <reified T : Any> DSLContext.set(key: DataKey<T>, value: T):
  * @receiver The [Configuration] to check.
  * @return True if the configuration uses a JDBC connection, false otherwise.
  */
-internal val Configuration.isJDBC: Boolean
+val Configuration.isJDBC: Boolean
     get() {
         val connectionFactory = connectionFactory()
         return connectionFactory::class.jvmName == "org.jooq.impl.NoConnectionFactory"

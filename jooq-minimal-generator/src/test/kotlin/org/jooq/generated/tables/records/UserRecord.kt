@@ -21,17 +21,17 @@ open class UserRecord() : UpdatableRecordImpl<UserRecord>(User.USER) {
         set(value): Unit = set(0, value)
         get(): Int? = get(0) as Int?
 
-    open var username: String
+    open var username: String?
         set(value): Unit = set(1, value)
-        get(): String = get(1) as String
+        get(): String? = get(1) as String?
 
-    open var email: String
+    open var email: String?
         set(value): Unit = set(2, value)
-        get(): String = get(2) as String
+        get(): String? = get(2) as String?
 
-    open var deactivated: Boolean
+    open var deactivated: Boolean?
         set(value): Unit = set(3, value)
-        get(): Boolean = get(3) as Boolean
+        get(): Boolean? = get(3) as Boolean?
 
     open var createdAt: LocalDateTime?
         set(value): Unit = set(4, value)
@@ -46,7 +46,7 @@ open class UserRecord() : UpdatableRecordImpl<UserRecord>(User.USER) {
     /**
      * Create a detached, initialised UserRecord
      */
-    constructor(id: Int? = null, username: String, email: String, deactivated: Boolean, createdAt: LocalDateTime? = null): this() {
+    constructor(id: Int? = null, username: String? = null, email: String? = null, deactivated: Boolean? = null, createdAt: LocalDateTime? = null): this() {
         this.id = id
         this.username = username
         this.email = email
